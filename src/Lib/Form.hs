@@ -16,7 +16,11 @@ mkForm :: String -> [Deal] -> Form
 mkForm model deals =
   let invalidDeals = filter (not . isValidDeal) deals
   in
-    if length invalidDeals > 0 then
-      InvalidForm model $ invalidDeals
-    else
-      ValidForm
+    case invalidDeals of
+    [] -> ValidForm
+    _ -> InvalidForm model $ invalidDeals
+
+instance Eq Form where
+  ValidForm == ValidForm = True
+  InvalidForm _ _ == InvalidForm _ _ = True
+  _ == _ = False

@@ -1,17 +1,17 @@
 module Form.User
-( form
+( adultForm
 ) where
 
 import Model.User
 import Module.Form
 
-form :: User -> Form
-form user =
+adultForm :: User -> Form
+adultForm user =
   let
     form = mkForm "user" deals
     deals =
-      mkDeal "age" positive (age user) :
-      mkDeal "age" (Coerce "equal5" (== 5)) (age user) :
       mkDeal "firstname" present (firstname user) :
+      mkDeal "lastname" present (lastname user) :
+      mkDeal "age" (Coerce "adultAge" (>= 18)) (age user) :
       []
   in form
