@@ -11,7 +11,7 @@ main = hspec spec
 spec :: Spec
 spec = do
 
-  describe "valid" $ do
+  describe "match if" $ do
 
     it "both valid" $ do
       shouldBe ValidForm ValidForm
@@ -21,9 +21,8 @@ spec = do
       let form2 = InvalidForm "model2" []
       shouldBe form1 form2
 
-  describe "invalid" $ do
+  describe "doesnt match if" $ do
 
     it "valid & invalid" $ do
       let form1 = InvalidForm "model1" []
-      pending
-      --shouldBe form1 ValidForm
+      shouldNotBe form1 ValidForm
