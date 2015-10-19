@@ -16,15 +16,15 @@ data Deal =
   , value :: String
   } deriving Show
 
+instance Valid Deal where
+  valid ValidDeal = True
+  valid _ = False
+
+  invalid deal = (not . valid) deal
+
 mkDeal :: (Show a) => String -> Coerce a -> a -> Deal
 mkDeal attribute (Coerce k v) value =
   if v value then
     ValidDeal
   else
     InvalidDeal attribute k (show value)
-
-instance Valid Deal where
-  valid ValidDeal = True
-  valid _ = False
-
-  invalid deal = (not . valid) deal

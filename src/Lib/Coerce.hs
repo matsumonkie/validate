@@ -1,12 +1,12 @@
 module Lib.Coerce
 ( Coerce(..)
-, present
+, presence
 , positive
 ) where
 
 data Coerce a = Coerce String (a -> Bool)
 
-present = Coerce "present" (\x -> length(x) > 0)
+presence = Coerce "presence" (\x -> length(x) > 0)
 
 positive :: (Integral a) => Coerce a
 positive = Coerce "positive" (> 0)

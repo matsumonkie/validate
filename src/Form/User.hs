@@ -11,8 +11,8 @@ userForm user =
   let
     form = mkForm user deals
     deals =
-      mkDeal "firstname" present (firstname user) :
-      mkDeal "lastname" present (lastname user) :
+      mkDeal "firstname" presence (firstname user) :
+      mkDeal "lastname" presence (lastname user) :
       mkDeal "age" (Coerce "positiveAge" (>= 0)) (age user) :
       []
   in form
@@ -22,8 +22,6 @@ adultForm user =
   let
     form = mkForm user deals
     deals =
-      mkDeal "firstname" present (firstname user) :
-      mkDeal "lastname" present (lastname user) :
       mkDeal "age" (Coerce "adultAge" (>= 18)) (age user) :
       []
-  in form
+  in bind (userForm user) form
