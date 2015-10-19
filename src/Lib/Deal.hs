@@ -1,10 +1,12 @@
 module Lib.Deal
 ( Deal(..)
 , mkDeal
-, isValidDeal
+, valid
+, invalid
 ) where
 
 import Lib.Coerce
+import Lib.Valid
 
 data Deal =
   ValidDeal |
@@ -21,6 +23,8 @@ mkDeal attribute (Coerce k v) value =
   else
     InvalidDeal attribute k (show value)
 
-isValidDeal :: Deal -> Bool
-isValidDeal ValidDeal = True
-isValidDeal _ = False
+instance Valid Deal where
+  valid ValidDeal = True
+  valid _ = False
+
+  invalid deal = (not . valid) deal

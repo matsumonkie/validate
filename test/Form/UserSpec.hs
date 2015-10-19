@@ -14,10 +14,4 @@ spec = do
   describe "validate" $ do
 
     it "adult" $ do
-      let user = User {
-        firstname = "John"
-      , lastname = "Doe"
-      , age = 18
-      }
-      let form = adultForm user
-      shouldBe form ValidForm
+      pending

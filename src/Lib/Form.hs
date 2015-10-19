@@ -1,26 +1,25 @@
 module Lib.Form
 ( Form(..)
 , mkForm
+, valid
+, invalid
 ) where
 
 import Lib.Deal
+import Lib.Valid
 
-data Form =
-  ValidForm |
-  InvalidForm {
-    model :: String
-  , invalidDeals :: [Deal]
-  } deriving Show
+data Form a = Form {
+  model :: a
+, invalidDeals :: [Deal]
+} deriving Show
 
-mkForm :: String -> [Deal] -> Form
+mkForm :: a -> [Deal] -> Form a
 mkForm model deals =
-  let invalidDeals = filter (not . isValidDeal) deals
-  in
-    case invalidDeals of
-    [] -> ValidForm
-    _ -> InvalidForm model $ invalidDeals
+  let invalidDeals = filter invalid deals
+  in Form model invalidDeals
 
-instance Eq Form where
-  ValidForm == ValidForm = True
-  InvalidForm _ _ == InvalidForm _ _ = True
-  _ == _ = False
+instance Valid (Form a) where
+  valid Form { invalidDeals = [] } = True
+  valid _ = False
+
+  invalid form = (not . valid) form
