@@ -19,8 +19,6 @@ instance Valid (Form a) where
   valid Form { invalidDeals = [] } = True
   valid _ = False
 
-  invalid form = (not . valid) form
-
 mkForm :: a -> [Deal] -> Form a
 mkForm model deals =
   let invalidDeals = filter invalid deals
