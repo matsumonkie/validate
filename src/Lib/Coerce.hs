@@ -6,7 +6,7 @@ module Lib.Coerce
 
 data Coerce a = Coerce String (a -> Bool)
 
-presence = Coerce "presence" (\x -> length(x) > 0)
+presence = Coerce "presence" (\x -> (not . null) x)
 
 positive :: (Integral a) => Coerce a
 positive = Coerce "positive" (> 0)
