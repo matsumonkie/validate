@@ -6,7 +6,7 @@ module Lib.Valid
 
 class Valid a where
   valid :: a -> Bool
-  valid a = (not . valid) a
+  valid a = (not . invalid) a
 
   invalid :: a -> Bool
   invalid a = (not . valid) a
