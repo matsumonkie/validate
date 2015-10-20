@@ -28,12 +28,12 @@ spec = do
 
     it "validate" $ do
       let user = User { firstname = "John", lastname = "Doe", age = 18 }
-      let form = adultForm user
+      let form = adultUserForm user
       shouldSatisfy form valid
 
     it "invalidate" $ do
       let user = User { firstname = "John", lastname = "", age = 17 }
-      let form = adultForm user
+      let form = adultUserForm user
 
       shouldSatisfy form invalid
       shouldBe (length $ errors form) 2

@@ -1,7 +1,7 @@
 module Lib.Form
 ( Form(..)
 , mkForm
-, bindForm
+, bindForms
 , valid
 , invalid
 , errors
@@ -24,10 +24,15 @@ mkForm model deals =
   let invalidDeals = filter invalid deals
   in Form model invalidDeals
 
-bindForm :: Form a -> Form a -> Form a
-bindForm form1 form2 =
-  let allInvalidDeals = (invalidDeals form1) ++ (invalidDeals form2)
-  in mkForm (model form1) allInvalidDeals
+bindForms :: a -> [a -> Form a] -> Form a
+bindForms model forms =
+  mkForm model allInvalidDeals
+  where
+    allInvalidDeals = concat [invalidDeals (form model) | form <- forms]
+
+pam :: a -> [ a -> b ] -> [b]
+pam p fs =
+  [f p | f <- fs]
 
 errors :: Form a -> [Deal]
 errors form = invalidDeals form
