@@ -16,6 +16,7 @@ library
     , Lib.Coerce
     , Lib.Deal
     , Lib.Form
+    , Lib.Valid
   build-depends:     base ==4.6.*
 
 test-suite spec

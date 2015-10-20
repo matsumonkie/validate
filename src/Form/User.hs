@@ -24,4 +24,4 @@ adultForm user =
     deals =
       mkDeal "age" (Coerce "adultAge" (>= 18)) (age user) :
       []
-  in bind (userForm user) form
+  in bindForm (userForm user) form
