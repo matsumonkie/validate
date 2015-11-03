@@ -30,9 +30,5 @@ bindForms model forms =
   where
     allInvalidDeals = concat [invalidDeals (form model) | form <- forms]
 
-pam :: a -> [ a -> b ] -> [b]
-pam p fs =
-  [f p | f <- fs]
-
 errors :: Form a -> [Deal]
 errors form = invalidDeals form
