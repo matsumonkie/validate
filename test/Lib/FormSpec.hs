@@ -38,6 +38,6 @@ spec = do
       shouldSatisfy form invalid
       shouldBe (length $ errors form) 2
       let error1 = constraint $ (errors form) !! 0
-      shouldBe error1 "presence"
+      shouldBe error1 "adultAge"
       let error2 = constraint $ (errors form) !! 1
-      shouldBe error2 "adultAge"
+      shouldBe error2 "presence"

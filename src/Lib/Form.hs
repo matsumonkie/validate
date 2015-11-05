@@ -1,7 +1,8 @@
+{-# LANGUAGE DeriveDataTypeable #-}
+
 module Lib.Form
 ( Form(..)
 , mkForm
-, bindForms
 , valid
 , invalid
 , errors
@@ -9,26 +10,33 @@ module Lib.Form
 
 import Lib.Deal
 import Lib.Valid
+import Data.Monoid
+import Data.Typeable
 
-data Form a = Form {
-  model :: a
-, invalidDeals :: [Deal]
-} deriving Show
+data Form a =
+  ValidForm
+  | InvalidForm { deals :: [Deal] }
+  deriving (Show, Typeable)
 
 instance Valid (Form a) where
-  valid Form { invalidDeals = [] } = True
+  valid ValidForm = True
   valid _ = False
 
-mkForm :: a -> [Deal] -> Form a
-mkForm model deals =
-  let invalidDeals = filter invalid deals
-  in Form model invalidDeals
+instance Monoid (Form a) where
+  mempty = ValidForm
 
-bindForms :: a -> [a -> Form a] -> Form a
-bindForms model forms =
-  mkForm model allInvalidDeals
-  where
-    allInvalidDeals = concat [invalidDeals (form model) | form <- forms]
+  mappend ValidForm ValidForm = ValidForm
+  mappend ValidForm f = f
+  mappend f ValidForm = f
+  mappend f1 f2 =
+    InvalidForm ((deals f1) ++ (deals f2))
+
+mkForm :: [Deal] -> Form a
+mkForm deals =
+  case invalidDeals of
+    [] -> ValidForm
+    _ -> InvalidForm invalidDeals
+  where invalidDeals = filter invalid deals
 
 errors :: Form a -> [Deal]
-errors form = invalidDeals form
+errors = deals
